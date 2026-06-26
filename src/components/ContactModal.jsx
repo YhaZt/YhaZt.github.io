@@ -1,29 +1,64 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, Mail, Send, User, MessageSquare } from 'lucide-react';
+import { X, Mail, Send, User, MessageSquare, Loader2 } from 'lucide-react';
+import { CONTACT_EMAIL } from '@/lib/config';
 
 export default function ContactModal({ isOpen, onClose }) {
   const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
   const handleChange = (e) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    if (error) setError(null);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Build mailto link with form data
-    const subject = encodeURIComponent(`Hello from ${form.name}`);
-    const body = encodeURIComponent(
-      `Name: ${form.name}\nEmail: ${form.email}\n\nMessage:\n${form.message}`
-    );
-    window.open(`mailto:your@email.com?subject=${subject}&body=${body}`, '_blank');
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
+    setLoading(true);
+    setError(null);
+
+    try {
+      const response = await fetch(`https://formsubmit.co/ajax/${CONTACT_EMAIL}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          name: form.name,
+          email: form.email,
+          message: form.message,
+          _subject: `Portfolio message from ${form.name}`,
+          _template: 'table',
+          _captcha: 'false',
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || data.success !== 'true') {
+        throw new Error(data.message || 'Failed to send message');
+      }
+
+      setSubmitted(true);
       setForm({ name: '', email: '', message: '' });
-      onClose();
-    }, 2000);
+      setTimeout(() => {
+        setSubmitted(false);
+        onClose();
+      }, 3000);
+    } catch {
+      setError(`Could not send right now. Email me directly at ${CONTACT_EMAIL}`);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleClose = () => {
+    if (loading) return;
+    setError(null);
+    onClose();
   };
 
   return (
@@ -35,24 +70,22 @@ export default function ContactModal({ isOpen, onClose }) {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
         >
-          {/* Backdrop */}
           <motion.div
             className="absolute inset-0 bg-black/60 backdrop-blur-sm"
-            onClick={onClose}
+            onClick={handleClose}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
           />
 
-          {/* Modal */}
           <motion.div
             className="relative w-full max-w-lg bg-card border border-border rounded-2xl shadow-2xl overflow-hidden"
             initial={{ scale: 0.9, opacity: 0, y: 20 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.9, opacity: 0, y: 20 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
+            onClick={(e) => e.stopPropagation()}
           >
-            {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-border">
               <div className="flex items-center gap-3">
                 <div className="p-2 rounded-full bg-primary/10">
@@ -64,14 +97,15 @@ export default function ContactModal({ isOpen, onClose }) {
                 </div>
               </div>
               <button
-                onClick={onClose}
-                className="p-2 rounded-full text-muted-foreground hover:text-foreground hover:bg-accent transition-colors"
+                type="button"
+                onClick={handleClose}
+                disabled={loading}
+                className="p-2 rounded-full text-muted-foreground hover:text-foreground hover:bg-accent transition-colors disabled:opacity-50"
               >
                 <X size={18} />
               </button>
             </div>
 
-            {/* Body */}
             <div className="p-6">
               {submitted ? (
                 <motion.div
@@ -79,15 +113,14 @@ export default function ContactModal({ isOpen, onClose }) {
                   animate={{ scale: 1, opacity: 1 }}
                   className="text-center py-8"
                 >
-                  <div className="text-4xl mb-3">🎉</div>
-                  <h3 className="text-lg font-semibold text-foreground mb-1">Message Prepared!</h3>
+                  <div className="text-4xl mb-3">✉️</div>
+                  <h3 className="text-lg font-semibold text-foreground mb-1">Message Sent!</h3>
                   <p className="text-sm text-muted-foreground">
-                    Your email client should open shortly.
+                    Thanks for reaching out — I'll get back to you soon.
                   </p>
                 </motion.div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
-                  {/* Name */}
                   <div>
                     <label htmlFor="contact-name" className="block text-sm font-medium text-foreground mb-1.5">
                       Name
@@ -99,15 +132,15 @@ export default function ContactModal({ isOpen, onClose }) {
                         name="name"
                         type="text"
                         required
+                        disabled={loading}
                         value={form.name}
                         onChange={handleChange}
                         placeholder="Your name"
-                        className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-background border border-input text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-colors text-sm"
+                        className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-background border border-input text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-colors text-sm disabled:opacity-60"
                       />
                     </div>
                   </div>
 
-                  {/* Email */}
                   <div>
                     <label htmlFor="contact-email" className="block text-sm font-medium text-foreground mb-1.5">
                       Email
@@ -119,15 +152,15 @@ export default function ContactModal({ isOpen, onClose }) {
                         name="email"
                         type="email"
                         required
+                        disabled={loading}
                         value={form.email}
                         onChange={handleChange}
                         placeholder="you@example.com"
-                        className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-background border border-input text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-colors text-sm"
+                        className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-background border border-input text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-colors text-sm disabled:opacity-60"
                       />
                     </div>
                   </div>
 
-                  {/* Message */}
                   <div>
                     <label htmlFor="contact-message" className="block text-sm font-medium text-foreground mb-1.5">
                       Message
@@ -138,22 +171,38 @@ export default function ContactModal({ isOpen, onClose }) {
                         id="contact-message"
                         name="message"
                         required
+                        disabled={loading}
                         rows={4}
                         value={form.message}
                         onChange={handleChange}
                         placeholder="Tell me about your project..."
-                        className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-background border border-input text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-colors text-sm resize-none"
+                        className="w-full pl-10 pr-4 py-2.5 rounded-lg bg-background border border-input text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-ring transition-colors text-sm resize-none disabled:opacity-60"
                       />
                     </div>
                   </div>
 
-                  {/* Submit */}
+                  {error && (
+                    <p className="text-sm text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2">
+                      {error}
+                    </p>
+                  )}
+
                   <button
                     type="submit"
-                    className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:opacity-90 transition-all hover:scale-[1.02] active:scale-[0.98]"
+                    disabled={loading}
+                    className="w-full flex items-center justify-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:opacity-90 transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-60 disabled:hover:scale-100"
                   >
-                    <Send size={16} />
-                    Send Message
+                    {loading ? (
+                      <>
+                        <Loader2 size={16} className="animate-spin" />
+                        Sending...
+                      </>
+                    ) : (
+                      <>
+                        <Send size={16} />
+                        Send Message
+                      </>
+                    )}
                   </button>
                 </form>
               )}

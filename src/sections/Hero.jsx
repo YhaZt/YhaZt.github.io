@@ -98,7 +98,7 @@ export default function Hero() {
           <a href="#links" className="text-muted-foreground hover:text-foreground transition-colors hover:scale-110 transform duration-200">
             <Linkedin size={22} />
           </a>
-          <a href="#links" className="text-muted-foreground hover:text-foreground transition-colors hover:scale-110 transform duration-200">
+          <a href="mailto:lantocapel1@gmail.com" className="text-muted-foreground hover:text-foreground transition-colors hover:scale-110 transform duration-200">
             <Mail size={22} />
           </a>
         </div>
