@@ -5,10 +5,10 @@ import { supabase, isSupabaseConfigured } from './supabase';
 const defaultHero = {
   name: 'YhaZt',
   title: 'Full Stack Developer',
-  tagline: 'Building modern web experiences with passion and precision',
+  tagline: 'Crafting fast, accessible web apps from idea to production',
   resume_url: '',
   github_url: 'https://github.com/YhaZt',
-  email: 'your@email.com',
+  email: 'mailto:your@email.com',
 };
 
 const defaultAbout = {
@@ -60,18 +60,46 @@ const defaultSkillCategories = [
 ];
 
 const defaultProjects = [
-  { id: '1', title: 'Project One', description: 'A full-stack web application built with React, Node.js, and PostgreSQL. Features real-time updates, authentication, and a modern dashboard.', tags: ['React', 'Node.js', 'PostgreSQL', 'Express'], image_url: null, live_url: '#', github_url: '#', featured: true, sort_order: 0 },
-  { id: '2', title: 'Project Two', description: 'E-commerce platform built with Vue.js and Laravel. Includes payment integration, inventory management, and admin panel.', tags: ['Vue', 'Laravel', 'MySQL', 'Stripe'], image_url: null, live_url: '#', github_url: '#', featured: true, sort_order: 1 },
-  { id: '3', title: 'Project Three', description: 'Mobile-first application using Quasar framework with Firebase backend. Real-time chat, push notifications, and offline support.', tags: ['Quasar', 'Firebase', 'PWA'], image_url: null, live_url: '#', github_url: '#', featured: true, sort_order: 2 },
+  {
+    id: '1',
+    title: 'Developer Portfolio',
+    description: 'This site — a modern portfolio with React, Vite, Tailwind CSS, and ReactBits animations. Dark mode, WakaTime stats, and optional Supabase CMS admin panel.',
+    tags: ['React', 'Vite', 'Tailwind', 'Framer Motion'],
+    image_url: null,
+    live_url: 'https://yhazt.github.io',
+    github_url: 'https://github.com/YhaZt/YhaZt.github.io',
+    featured: true,
+    sort_order: 0,
+  },
+  {
+    id: '2',
+    title: 'E-Commerce Platform',
+    description: 'Full-featured online store with Vue.js frontend, Laravel API, payment integration, inventory management, and admin dashboard.',
+    tags: ['Vue', 'Laravel', 'MySQL', 'Stripe'],
+    image_url: null,
+    live_url: '#',
+    github_url: 'https://github.com/YhaZt',
+    featured: true,
+    sort_order: 1,
+  },
+  {
+    id: '3',
+    title: 'Real-Time Chat App',
+    description: 'Mobile-first PWA with Quasar and Firebase — real-time messaging, push notifications, and offline support.',
+    tags: ['Quasar', 'Firebase', 'PWA'],
+    image_url: null,
+    live_url: '#',
+    github_url: 'https://github.com/YhaZt',
+    featured: true,
+    sort_order: 2,
+  },
 ];
 
 const defaultSocialLinks = [
-  { id: '1', name: 'GitHub', url: 'https://github.com/YhaZt', icon_name: 'Github', color: 'rgba(255, 255, 255, 0.1)', description: 'Check out my repositories and open source work', sort_order: 0 },
-  { id: '2', name: 'LinkedIn', url: '#', icon_name: 'Linkedin', color: 'rgba(10, 102, 194, 0.2)', description: 'Connect with me professionally', sort_order: 1 },
-  { id: '3', name: 'Email', url: 'mailto:your@email.com', icon_name: 'Mail', color: 'rgba(234, 67, 53, 0.2)', description: 'Send me an email for inquiries', sort_order: 2 },
-  { id: '4', name: 'Website', url: '#', icon_name: 'Globe', color: 'rgba(59, 130, 246, 0.2)', description: 'Visit my personal website', sort_order: 3 },
-  { id: '5', name: 'Twitter / X', url: '#', icon_name: 'Twitter', color: 'rgba(29, 161, 242, 0.2)', description: 'Follow me for tech updates', sort_order: 4 },
-  { id: '6', name: 'Facebook', url: '#', icon_name: 'Facebook', color: 'rgba(24, 119, 242, 0.2)', description: 'Connect on Facebook', sort_order: 5 },
+  { id: '1', name: 'GitHub', url: 'https://github.com/YhaZt', icon_name: 'Github', color: 'rgba(255, 255, 255, 0.1)', description: 'Open-source projects and contributions', sort_order: 0 },
+  { id: '2', name: 'LinkedIn', url: 'https://linkedin.com/in/your-profile', icon_name: 'Linkedin', color: 'rgba(10, 102, 194, 0.2)', description: 'Professional background and experience', sort_order: 1 },
+  { id: '3', name: 'Email', url: 'mailto:your@email.com', icon_name: 'Mail', color: 'rgba(234, 67, 53, 0.2)', description: 'Reach out for collaborations or opportunities', sort_order: 2 },
+  { id: '4', name: 'Portfolio', url: 'https://yhazt.github.io', icon_name: 'Globe', color: 'rgba(59, 130, 246, 0.2)', description: 'Live portfolio site on GitHub Pages', sort_order: 3 },
 ];
 
 // ─── Context ───────────────────────────────────────────────

@@ -34,7 +34,7 @@ export default function Projects() {
           </ScrollFloat>
           <AnimatedContent distance={40} delay={0.2}>
             <p className="text-muted-foreground mt-4 max-w-2xl mx-auto text-lg">
-              A selection of projects I've worked on — replace these with your own!
+              Selected work spanning full-stack apps, APIs, and modern frontends
             </p>
           </AnimatedContent>
         </div>
@@ -61,7 +61,7 @@ export default function Projects() {
         {/* Project Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {displayedProjects.map((project, index) => (
-            <AnimatedContent key={project.title} distance={50} delay={index * 0.1}>
+            <AnimatedContent key={project.id || project.title} distance={50} delay={index * 0.1}>
               <SpotlightCard
                 className="group p-0 rounded-2xl bg-card border border-border overflow-hidden h-full flex flex-col"
                 spotlightColor="rgba(59, 130, 246, 0.1)"

@@ -26,7 +26,6 @@ export default function WakaTime() {
   useEffect(() => {
     if (!WAKATIME_API_KEY) {
       setLoading(false);
-      setError('WakaTime API key not configured. Set your API key in src/sections/WakaTime.jsx');
       return;
     }
 
@@ -80,30 +79,42 @@ export default function WakaTime() {
           </AnimatedContent>
         </div>
 
-        {error ? (
-          <AnimatedContent distance={40}>
-            <SpotlightCard className="p-8 rounded-2xl bg-card border border-border text-center max-w-2xl mx-auto" spotlightColor="rgba(59, 130, 246, 0.1)">
-              <BarChart3 size={48} className="text-muted-foreground/30 mx-auto mb-4" />
-              <p className="text-muted-foreground mb-4">{error}</p>
-              <div className="bg-secondary/50 rounded-lg p-4 text-left">
-                <p className="text-sm text-muted-foreground font-mono">
-                  {`// Open src/sections/WakaTime.jsx`}<br />
-                  {`// Set your API key:`}<br />
-                  {`const WAKATIME_API_KEY = 'your-api-key-here';`}
-                </p>
-              </div>
-              <p className="text-xs text-muted-foreground/60 mt-4">
-                Get your API key from{' '}
-                <a href="https://wakatime.com/settings/api-key" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                  wakatime.com/settings/api-key
-                </a>
-              </p>
-            </SpotlightCard>
-          </AnimatedContent>
-        ) : loading ? (
+        {loading ? (
           <div className="text-center text-muted-foreground">
             <div className="animate-pulse">Loading WakaTime data...</div>
           </div>
+        ) : error ? (
+          <AnimatedContent distance={40}>
+            <SpotlightCard className="p-8 rounded-2xl bg-card border border-border text-center max-w-2xl mx-auto" spotlightColor="rgba(239, 68, 68, 0.1)">
+              <BarChart3 size={48} className="text-muted-foreground/30 mx-auto mb-4" />
+              <p className="text-muted-foreground mb-2">Could not load WakaTime data</p>
+              <p className="text-sm text-muted-foreground/70">{error}</p>
+            </SpotlightCard>
+          </AnimatedContent>
+        ) : !WAKATIME_API_KEY ? (
+          <AnimatedContent distance={40}>
+            <SpotlightCard className="p-8 rounded-2xl bg-card border border-border text-center max-w-2xl mx-auto" spotlightColor="rgba(59, 130, 246, 0.1)">
+              <BarChart3 size={48} className="text-primary/40 mx-auto mb-4" />
+              <h3 className="text-lg font-semibold text-foreground mb-2">WakaTime Integration</h3>
+              <p className="text-muted-foreground mb-6">
+                Connect your WakaTime account to display live coding stats here.
+              </p>
+              <div className="bg-secondary/50 rounded-lg p-4 text-left mb-4">
+                <p className="text-sm text-muted-foreground font-mono">
+                  {`// src/sections/WakaTime.jsx`}<br />
+                  {`const WAKATIME_API_KEY = 'your-api-key';`}
+                </p>
+              </div>
+              <a
+                href="https://wakatime.com/settings/api-key"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-primary hover:underline"
+              >
+                Get your API key from WakaTime →
+              </a>
+            </SpotlightCard>
+          </AnimatedContent>
         ) : (
           <>
             {/* Stats Summary */}

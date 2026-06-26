@@ -8,7 +8,7 @@ import AdminPage from '@/pages/Admin'
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <BrowserRouter>
+    <BrowserRouter basename={import.meta.env.BASE_URL}>
       <SiteDataProvider>
         <Routes>
           <Route path="/" element={<App />} />

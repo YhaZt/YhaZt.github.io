@@ -1,6 +1,7 @@
 import { Code2, Globe, ExternalLink, Calendar, Mail } from 'lucide-react';
 import Particles from '@/components/Particles';
 import Dock from '@/components/Dock';
+import ScrollProgress from '@/components/ScrollProgress';
 
 import Navbar from '@/sections/Navbar';
 import Hero from '@/sections/Hero';
@@ -14,6 +15,7 @@ import Footer from '@/sections/Footer';
 export default function App() {
   return (
     <div className="relative min-h-screen overflow-x-hidden">
+      <ScrollProgress />
       {/* Background particles */}
       <div className="fixed inset-0 z-0">
         <Particles
