@@ -6,9 +6,11 @@ import Aurora from '@/components/Aurora';
 import GlowingButton from '@/components/GlowingButton';
 import { Github, Linkedin, Mail, FileDown } from 'lucide-react';
 import { useSiteData } from '@/lib/data';
+import { useChat } from '@/context/ChatContext';
 
 export default function Hero() {
   const { hero } = useSiteData();
+  const { openChat } = useChat();
 
   return (
     <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -67,7 +69,7 @@ export default function Hero() {
               Download Resume
             </GlowingButton>
           )}
-          <GlowingButton href="#links" variant="outline">
+          <GlowingButton onClick={openChat} variant="outline">
             Get in Touch
           </GlowingButton>
         </div>

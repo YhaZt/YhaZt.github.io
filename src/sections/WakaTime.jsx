@@ -3,8 +3,10 @@ import ScrollFloat from '@/components/ScrollFloat';
 import SpotlightCard from '@/components/SpotlightCard';
 import GlowingButton from '@/components/GlowingButton';
 import { BarChart3, ExternalLink } from 'lucide-react';
+import { useChat } from '@/context/ChatContext';
 
 export default function WakaTime() {
+  const { openChat } = useChat();
   return (
     <section id="wakatime" className="py-32 px-6">
       <div className="max-w-6xl mx-auto">
@@ -26,10 +28,15 @@ export default function WakaTime() {
             <p className="text-muted-foreground mb-8 leading-relaxed">
               Language breakdowns, daily averages, and coding streaks — tracked in real time on my public WakaTime profile.
             </p>
-            <GlowingButton href="https://wakatime.com/@YhaZt">
-              View on WakaTime
-              <ExternalLink size={16} />
-            </GlowingButton>
+            <div className="flex flex-col sm:flex-row items-center justify-center gap-3">
+              <GlowingButton href="https://wakatime.com/@YhaZt">
+                View on WakaTime
+                <ExternalLink size={16} />
+              </GlowingButton>
+              <GlowingButton onClick={openChat} variant="outline">
+                Message me
+              </GlowingButton>
+            </div>
           </SpotlightCard>
         </AnimatedContent>
       </div>

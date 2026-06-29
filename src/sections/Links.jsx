@@ -1,15 +1,11 @@
-import { useState } from 'react';
 import AnimatedContent from '@/components/AnimatedContent';
 import ScrollFloat from '@/components/ScrollFloat';
 import SpotlightCard from '@/components/SpotlightCard';
-import GlowingButton from '@/components/GlowingButton';
-import ContactModal from '@/components/ContactModal';
-import { ExternalLink, Mail } from 'lucide-react';
+import { ExternalLink } from 'lucide-react';
 import { useSiteData } from '@/lib/data';
 import { getIcon } from '@/lib/icons';
 
 export default function Links() {
-  const [contactOpen, setContactOpen] = useState(false);
   const { socialLinks } = useSiteData();
 
   return (
@@ -21,7 +17,7 @@ export default function Links() {
           </ScrollFloat>
           <AnimatedContent distance={40} delay={0.2}>
             <p className="text-muted-foreground mt-4 max-w-2xl mx-auto text-lg">
-              Find me on these platforms — feel free to reach out!
+              Find me on these platforms — or tap the chat icon bottom-right to message me directly.
             </p>
           </AnimatedContent>
         </div>
@@ -56,24 +52,7 @@ export default function Links() {
             </AnimatedContent>
           ))}
         </div>
-
-        <AnimatedContent distance={40} delay={0.5}>
-          <div className="mt-16 text-center">
-            <SpotlightCard className="inline-block glass-panel p-8 rounded-2xl" spotlightColor="rgba(59, 130, 246, 0.15)">
-              <h3 className="text-xl font-semibold text-foreground mb-3">Have a project in mind?</h3>
-              <p className="text-muted-foreground mb-6 max-w-md">
-                I'm always open to new opportunities and interesting projects. Let's build something amazing together.
-              </p>
-              <GlowingButton onClick={() => setContactOpen(true)}>
-                <Mail size={18} />
-                Say Hello
-              </GlowingButton>
-            </SpotlightCard>
-          </div>
-        </AnimatedContent>
       </div>
-
-      <ContactModal isOpen={contactOpen} onClose={() => setContactOpen(false)} />
     </section>
   );
 }

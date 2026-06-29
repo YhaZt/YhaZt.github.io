@@ -199,4 +199,48 @@ body {
   .social-glow:hover {
     filter: drop-shadow(0 0 8px oklch(0.62 0.2 264 / 0.6));
   }
+
+  .mesh-bg {
+    background:
+      radial-gradient(ellipse 80% 60% at 20% 10%, oklch(0.45 0.15 264 / 0.35), transparent 55%),
+      radial-gradient(ellipse 70% 50% at 85% 15%, oklch(0.4 0.14 290 / 0.28), transparent 50%),
+      radial-gradient(ellipse 60% 45% at 50% 90%, oklch(0.35 0.12 320 / 0.22), transparent 55%),
+      var(--background);
+    animation: mesh-shift 18s ease-in-out infinite alternate;
+  }
+
+  .loader-orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.5;
+  }
+
+  .loader-orb-1 {
+    width: 320px;
+    height: 320px;
+    top: 20%;
+    left: 15%;
+    background: oklch(0.55 0.2 264 / 0.4);
+    animation: float-orb 6s ease-in-out infinite;
+  }
+
+  .loader-orb-2 {
+    width: 280px;
+    height: 280px;
+    bottom: 15%;
+    right: 10%;
+    background: oklch(0.5 0.18 290 / 0.35);
+    animation: float-orb 8s ease-in-out infinite reverse;
+  }
+}
+
+@keyframes mesh-shift {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(18deg); }
+}
+
+@keyframes float-orb {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(20px, -15px) scale(1.08); }
 }
