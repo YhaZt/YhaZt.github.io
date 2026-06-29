@@ -13,4 +13,11 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  build: {
+    rollupOptions: {
+      input: {
+        index: path.resolve(__dirname, 'index.source.html'),
+      },
+    },
+  },
 })
