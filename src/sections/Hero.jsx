@@ -1,85 +1,103 @@
+import SplitText from '@/components/SplitText';
 import GradientText from '@/components/GradientText';
-import { Github, Linkedin, Mail, ArrowRight } from 'lucide-react';
+import DecryptedText from '@/components/DecryptedText';
+import ShinyText from '@/components/ShinyText';
+import Aurora from '@/components/Aurora';
+import GlowingButton from '@/components/GlowingButton';
+import { Github, Linkedin, Mail, FileDown } from 'lucide-react';
 import { useSiteData } from '@/lib/data';
 
 export default function Hero() {
   const { hero } = useSiteData();
 
   return (
-    <section id="hero" className="relative min-h-screen flex items-center overflow-hidden">
-      <div className="hero-glow pointer-events-none" aria-hidden="true" />
+    <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <div className="absolute inset-0 opacity-40">
+        <Aurora
+          colorStops={['#3b82f6', '#6366f1', '#8b5cf6', '#ec4899']}
+          amplitude={1.4}
+          speed={0.9}
+        />
+      </div>
 
-      <div className="relative z-10 w-full max-w-6xl mx-auto px-6 py-28 md:py-32">
-        <div className="max-w-3xl">
-          <div className="inline-flex items-center gap-2.5 rounded-full border border-border/80 bg-card/60 backdrop-blur-sm px-4 py-1.5 mb-8">
-            <span className="relative flex h-2 w-2">
-              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
-              <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
-            </span>
-            <span className="text-xs font-medium tracking-wide text-muted-foreground">
-              Open to opportunities
-            </span>
-          </div>
+      <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
+        <div className="mb-4">
+          <ShinyText
+            text="Welcome to my portfolio"
+            speed={3}
+            className="text-sm uppercase tracking-[0.3em] text-muted-foreground"
+          />
+        </div>
 
-          <p className="text-xs uppercase tracking-[0.28em] text-muted-foreground mb-5">
-            Full-stack developer
-          </p>
+        <div className="mb-6">
+          <GradientText
+            colors={['#3b82f6', '#8b5cf6', '#ec4899', '#3b82f6']}
+            animationSpeed={6}
+            className="text-6xl md:text-8xl font-extrabold leading-tight"
+          >
+            {hero.name}
+          </GradientText>
+        </div>
 
-          <h1 className="mb-6">
-            <GradientText
-              colors={['#60a5fa', '#818cf8', '#a78bfa', '#60a5fa']}
-              animationSpeed={8}
-              className="text-5xl sm:text-6xl md:text-7xl font-semibold tracking-tight leading-[1.05]"
-            >
-              {hero.name}
-            </GradientText>
-          </h1>
+        <div className="mb-8">
+          <SplitText
+            text={hero.title}
+            className="text-2xl md:text-3xl font-light text-muted-foreground"
+            delay={40}
+            duration={0.8}
+          />
+        </div>
 
-          <p className="text-xl md:text-2xl font-medium text-foreground/90 mb-4">
-            {hero.title}
-          </p>
+        <div className="mb-12">
+          <DecryptedText
+            text={hero.tagline}
+            animateOn="view"
+            speed={30}
+            className="text-lg text-muted-foreground/80"
+            sequential={true}
+            revealDirection="start"
+          />
+        </div>
 
-          <p className="text-base md:text-lg text-muted-foreground max-w-xl leading-relaxed mb-10">
-            {hero.tagline}
-          </p>
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+          <GlowingButton href="#projects">View Projects</GlowingButton>
+          {hero.resume_url && (
+            <GlowingButton href={hero.resume_url} variant="outline">
+              <FileDown size={18} />
+              Download Resume
+            </GlowingButton>
+          )}
+          <GlowingButton href="#links" variant="outline">
+            Get in Touch
+          </GlowingButton>
+        </div>
 
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-12">
-            <a href="#projects" className="btn-primary group">
-              View Projects
-              <ArrowRight size={16} className="transition-transform group-hover:translate-x-0.5" />
-            </a>
-            <a href="#links" className="btn-secondary">
-              Get in Touch
-            </a>
-          </div>
-
-          <div className="flex items-center gap-5">
-            <a
-              href={hero.github_url || 'https://github.com/YhaZt'}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-foreground transition-colors"
-              aria-label="GitHub"
-            >
-              <Github size={20} />
-            </a>
-            <a
-              href="https://www.linkedin.com/in/carpel-sweet-dreams-lanto-8515a2258/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-foreground transition-colors"
-              aria-label="LinkedIn"
-            >
-              <Linkedin size={20} />
-            </a>
-            <a
-              href={hero.email || 'mailto:lantocapel1@gmail.com'}
-              className="text-muted-foreground hover:text-foreground transition-colors"
-              aria-label="Email"
-            >
-              <Mail size={20} />
-            </a>
-          </div>
+        <div className="flex items-center justify-center gap-6 mt-12">
+          <a
+            href={hero.github_url || 'https://github.com/YhaZt'}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="social-glow"
+            aria-label="GitHub"
+          >
+            <Github size={22} />
+          </a>
+          <a
+            href="https://www.linkedin.com/in/carpel-sweet-dreams-lanto-8515a2258/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="social-glow"
+            aria-label="LinkedIn"
+          >
+            <Linkedin size={22} />
+          </a>
+          <a
+            href={hero.email || 'mailto:lantocapel1@gmail.com'}
+            className="social-glow"
+            aria-label="Email"
+          >
+            <Mail size={22} />
+          </a>
         </div>
       </div>
     </section>

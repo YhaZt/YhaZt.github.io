@@ -1,37 +1,35 @@
 import AnimatedContent from '@/components/AnimatedContent';
-import SectionHeader from '@/components/SectionHeader';
+import ScrollFloat from '@/components/ScrollFloat';
 import SpotlightCard from '@/components/SpotlightCard';
+import GlowingButton from '@/components/GlowingButton';
 import { BarChart3, ExternalLink } from 'lucide-react';
 
 export default function WakaTime() {
   return (
-    <section id="wakatime" className="py-24 md:py-32 px-6 border-t border-border/50">
+    <section id="wakatime" className="py-32 px-6">
       <div className="max-w-6xl mx-auto">
-        <SectionHeader
-          label="Activity"
-          title="Coding rhythm"
-          description="Track record of consistent development — measured with WakaTime."
-        />
-
-        <AnimatedContent distance={36}>
-          <SpotlightCard
-            className="p-8 md:p-10 rounded-xl bg-card/80 border border-border/80 max-w-3xl mx-auto text-center"
-            spotlightColor="rgba(59, 130, 246, 0.1)"
-          >
-            <BarChart3 size={40} className="text-primary/50 mx-auto mb-5" strokeWidth={1.5} />
-            <h3 className="text-lg font-semibold text-foreground mb-2">WakaTime profile</h3>
-            <p className="text-muted-foreground text-sm md:text-base leading-relaxed mb-8 max-w-md mx-auto">
-              Live language breakdowns, daily averages, and coding streaks are available on my public WakaTime dashboard.
+        <div className="text-center mb-16">
+          <ScrollFloat>
+            <span className="text-4xl md:text-5xl font-bold text-foreground">Coding Activity</span>
+          </ScrollFloat>
+          <AnimatedContent distance={40} delay={0.2}>
+            <p className="text-muted-foreground mt-4 max-w-2xl mx-auto text-lg">
+              My coding stats powered by WakaTime
             </p>
-            <a
-              href="https://wakatime.com/@YhaZt"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-primary"
-            >
+          </AnimatedContent>
+        </div>
+
+        <AnimatedContent distance={40}>
+          <SpotlightCard className="glass-panel p-10 rounded-2xl text-center max-w-2xl mx-auto" spotlightColor="rgba(59, 130, 246, 0.12)">
+            <BarChart3 size={48} className="text-primary/50 mx-auto mb-5" strokeWidth={1.5} />
+            <h3 className="text-xl font-semibold text-foreground mb-2">Live WakaTime Dashboard</h3>
+            <p className="text-muted-foreground mb-8 leading-relaxed">
+              Language breakdowns, daily averages, and coding streaks — tracked in real time on my public WakaTime profile.
+            </p>
+            <GlowingButton href="https://wakatime.com/@YhaZt">
               View on WakaTime
               <ExternalLink size={16} />
-            </a>
+            </GlowingButton>
           </SpotlightCard>
         </AnimatedContent>
       </div>

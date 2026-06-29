@@ -1,7 +1,8 @@
 import { useState, useMemo } from 'react';
 import AnimatedContent from '@/components/AnimatedContent';
-import SectionHeader from '@/components/SectionHeader';
+import ScrollFloat from '@/components/ScrollFloat';
 import SpotlightCard from '@/components/SpotlightCard';
+import ShinyText from '@/components/ShinyText';
 import { ExternalLink, Github, ChevronRight, Lock } from 'lucide-react';
 import { useSiteData } from '@/lib/data';
 
@@ -23,24 +24,29 @@ export default function Projects() {
   const displayedProjects = showAll ? filteredProjects : filteredProjects.slice(0, 3);
 
   return (
-    <section id="projects" className="py-24 md:py-32 px-6 border-t border-border/50">
+    <section id="projects" className="py-32 px-6">
       <div className="max-w-6xl mx-auto">
-        <SectionHeader
-          label="Work"
-          title="Selected projects"
-          description="Production apps, internal tools, and full-stack builds across different domains."
-        />
+        <div className="text-center mb-16">
+          <ScrollFloat>
+            <span className="text-4xl md:text-5xl font-bold text-foreground">Projects</span>
+          </ScrollFloat>
+          <AnimatedContent distance={40} delay={0.2}>
+            <p className="text-muted-foreground mt-4 max-w-2xl mx-auto text-lg">
+              Selected work spanning full-stack apps, APIs, and modern frontends
+            </p>
+          </AnimatedContent>
+        </div>
 
-        <AnimatedContent distance={24} delay={0.1}>
-          <div className="flex flex-wrap justify-center gap-2 mb-10">
+        <AnimatedContent distance={30} delay={0.1}>
+          <div className="flex flex-wrap justify-center gap-3 mb-12">
             {filters.map((filter) => (
               <button
                 key={filter}
                 onClick={() => { setActiveFilter(filter); setShowAll(false); }}
-                className={`px-3.5 py-1.5 rounded-md text-sm transition-colors ${
+                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
                   activeFilter === filter
-                    ? 'bg-foreground text-background'
-                    : 'bg-card border border-border/80 text-muted-foreground hover:text-foreground'
+                    ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/25'
+                    : 'glass-panel text-muted-foreground hover:text-foreground hover:border-primary/50'
                 }`}
               >
                 {filter}
@@ -49,38 +55,38 @@ export default function Projects() {
           </div>
         </AnimatedContent>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {displayedProjects.map((project, index) => {
             const hasLiveUrl = project.live_url && project.live_url !== '#';
 
             return (
-            <AnimatedContent key={project.id || project.title} distance={36} delay={index * 0.06}>
+            <AnimatedContent key={project.id || project.title} distance={50} delay={index * 0.1}>
               <SpotlightCard
-                className="group p-0 rounded-xl bg-card/80 border border-border/80 overflow-hidden h-full flex flex-col"
-                spotlightColor="rgba(59, 130, 246, 0.08)"
+                className="group glass-panel p-0 rounded-2xl overflow-hidden h-full flex flex-col"
+                spotlightColor="rgba(59, 130, 246, 0.1)"
               >
-                <div className="h-36 bg-gradient-to-br from-primary/10 via-transparent to-transparent flex items-center justify-center border-b border-border/60">
+                <div className="h-48 bg-gradient-to-br from-primary/20 via-purple-500/10 to-transparent flex items-center justify-center border-b border-white/5 overflow-hidden">
                   {project.image_url ? (
                     <img src={project.image_url} alt={project.title} className="w-full h-full object-cover" />
                   ) : (
-                    <span className="text-2xl font-semibold tracking-tight text-muted-foreground/40 group-hover:text-muted-foreground/60 transition-colors">
+                    <span className="text-4xl font-bold text-primary/30 group-hover:text-primary/50 transition-colors">
                       {project.title.split(' ').map(w => w[0]).join('')}
                     </span>
                   )}
                 </div>
 
-                <div className="p-5 flex flex-col flex-1">
-                  <div className="flex items-start justify-between gap-3 mb-2">
-                    <h3 className="text-base font-semibold text-foreground leading-snug">{project.title}</h3>
-                    <div className="flex items-center gap-1.5 shrink-0">
+                <div className="p-6 flex flex-col flex-1">
+                  <div className="flex items-center justify-between mb-3">
+                    <h3 className="text-lg font-semibold text-foreground">{project.title}</h3>
+                    <div className="flex items-center gap-2">
                       {project.is_private && (
-                        <span className="flex items-center gap-1 text-[10px] uppercase tracking-wide text-muted-foreground bg-secondary px-2 py-0.5 rounded">
+                        <span className="flex items-center gap-1 text-xs text-muted-foreground bg-secondary px-2 py-0.5 rounded-full">
                           <Lock size={10} />
                           Private
                         </span>
                       )}
                       {project.featured && (
-                        <span className="text-[10px] uppercase tracking-wide text-primary font-medium">Featured</span>
+                        <ShinyText text="Featured" speed={4} className="text-xs text-primary" />
                       )}
                     </div>
                   </div>
@@ -88,37 +94,37 @@ export default function Projects() {
                     {project.description}
                   </p>
 
-                  <div className="flex flex-wrap gap-1.5 mb-4">
+                  <div className="flex flex-wrap gap-2 mb-4">
                     {(project.tags || []).map((tag) => (
                       <span
                         key={tag}
-                        className="px-2 py-0.5 text-[11px] rounded bg-secondary/80 text-muted-foreground"
+                        className="px-2 py-0.5 text-xs rounded-md bg-secondary/80 text-muted-foreground"
                       >
                         {tag}
                       </span>
                     ))}
                   </div>
 
-                  <div className="flex items-center gap-4 pt-3 border-t border-border/60">
+                  <div className="flex items-center gap-4 pt-2 border-t border-white/5">
                     {hasLiveUrl && (
                       <a
                         href={project.live_url}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                        className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors"
                       >
-                        <ExternalLink size={13} />
-                        Live
+                        <ExternalLink size={14} />
+                        <span>Live Demo</span>
                       </a>
                     )}
                     <a
                       href={project.github_url || '#'}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground transition-colors"
+                      className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors"
                     >
-                      <Github size={13} />
-                      {project.is_private ? 'Private repo' : 'Source'}
+                      <Github size={14} />
+                      <span>{project.is_private ? 'GitHub (private)' : 'Source'}</span>
                     </a>
                   </div>
                 </div>
@@ -129,13 +135,13 @@ export default function Projects() {
         </div>
 
         {filteredProjects.length > 3 && !showAll && (
-          <AnimatedContent distance={20} delay={0.2}>
+          <AnimatedContent distance={20} delay={0.3}>
             <div className="text-center mt-10">
               <button
                 onClick={() => setShowAll(true)}
-                className="btn-secondary"
+                className="inline-flex items-center gap-2 px-6 py-3 rounded-full glass-panel text-muted-foreground hover:text-foreground hover:border-primary/50 transition-all"
               >
-                View all projects
+                View All Projects
                 <ChevronRight size={16} />
               </button>
             </div>
