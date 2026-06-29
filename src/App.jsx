@@ -16,20 +16,20 @@ export default function App() {
   return (
     <div className="relative min-h-screen overflow-x-hidden">
       <ScrollProgress />
-      {/* Background particles */}
-      <div className="fixed inset-0 z-0">
+
+      <div className="site-backdrop fixed inset-0 z-0" aria-hidden="true" />
+      <div className="fixed inset-0 z-0 opacity-[0.35] dark:opacity-[0.25]">
         <Particles
-          particleCount={120}
-          particleColors={['#3b82f6', '#6366f1', '#8b5cf6']}
-          speed={0.05}
-          particleBaseSize={80}
+          particleCount={40}
+          particleColors={['#3b82f6', '#6366f1']}
+          speed={0.03}
+          particleBaseSize={60}
           alphaParticles={true}
-          sizeRandomness={0.8}
-          cameraDistance={25}
+          sizeRandomness={0.6}
+          cameraDistance={28}
         />
       </div>
 
-      {/* Content */}
       <div className="relative z-10">
         <Navbar />
         <Hero />
@@ -41,8 +41,7 @@ export default function App() {
         <Footer />
       </div>
 
-      {/* Floating Dock Navigation */}
-      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50">
+      <div className="fixed bottom-6 left-1/2 -translate-x-1/2 z-50 md:hidden">
         <Dock
           items={[
             { icon: <div className="text-sm font-bold">H</div>, label: 'Home', onClick: () => document.getElementById('hero')?.scrollIntoView({ behavior: 'smooth' }) },
@@ -53,9 +52,9 @@ export default function App() {
             { icon: <Mail size={18} />, label: 'Links', onClick: () => document.getElementById('links')?.scrollIntoView({ behavior: 'smooth' }) },
           ]}
           baseItemSize={40}
-          magnification={60}
-          panelHeight={56}
-          distance={150}
+          magnification={56}
+          panelHeight={52}
+          distance={140}
         />
       </div>
     </div>

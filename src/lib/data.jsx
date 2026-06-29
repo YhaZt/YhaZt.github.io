@@ -19,9 +19,9 @@ const defaultAbout = {
 
 const defaultStats = [
   { id: '1', icon: 'Code2', value: 5, suffix: '+', label: 'Years Experience', sort_order: 0 },
-  { id: '2', icon: 'Briefcase', value: 7, suffix: '+', label: 'Projects Completed', sort_order: 1 },
+  { id: '2', icon: 'Briefcase', value: 8, suffix: '+', label: 'Projects Shipped', sort_order: 1 },
   { id: '3', icon: 'Rocket', value: 12, suffix: '+', label: 'Technologies', sort_order: 2 },
-  { id: '4', icon: 'Coffee', value: 999, suffix: '+', label: 'Cups of Coffee', sort_order: 3 },
+  { id: '4', icon: 'Layers', value: 3, suffix: '+', label: 'Cloud Platforms', sort_order: 3 },
 ];
 
 const defaultSkillCategories = [
