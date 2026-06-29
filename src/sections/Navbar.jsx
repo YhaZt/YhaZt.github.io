@@ -69,7 +69,7 @@ export default function Navbar() {
             onClick={(e) => { e.preventDefault(); handleNavClick('#hero'); }}
             className="text-lg font-semibold tracking-tight text-foreground"
           >
-            YhaZt<span className="text-primary">.</span>
+            Carpel SD<span className="text-primary">.</span>
           </a>
 
           <div className="flex items-center gap-3">

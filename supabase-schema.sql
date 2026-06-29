@@ -1,12 +1,12 @@
 -- ============================================
--- Supabase Schema for YhaZt Portfolio
+-- Supabase Schema for Carpel SD Portfolio
 -- Run this SQL in your Supabase SQL Editor
 -- ============================================
 
 -- Hero Section
 CREATE TABLE IF NOT EXISTS hero (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  name TEXT NOT NULL DEFAULT 'YhaZt',
+  name TEXT NOT NULL DEFAULT 'Carpel SD',
   title TEXT NOT NULL DEFAULT 'Full Stack Developer',
   tagline TEXT DEFAULT 'Building modern web experiences with passion and precision',
   resume_url TEXT,
@@ -102,7 +102,7 @@ CREATE POLICY "Anon write social_links" ON social_links FOR ALL USING (true) WIT
 -- ============================================
 
 INSERT INTO hero (name, title, tagline, github_url, email) VALUES
-  ('YhaZt', 'Full Stack Developer', 'Building modern web experiences with passion and precision', 'https://github.com/YhaZt', 'your@email.com');
+  ('Carpel SD', 'Full Stack Developer', 'Building modern web experiences with passion and precision', 'https://github.com/YhaZt', 'your@email.com');
 
 INSERT INTO about (who_i_am, what_i_do, tags) VALUES (
   'I''m a developer with a deep passion for building full-stack web applications. My expertise spans across frontend frameworks like React and Vue, backend technologies like Node.js, Express, Laravel, and CodeIgniter 4, and cloud platforms like Firebase, Supabase, and Digital Ocean.\n\nI believe in writing clean, maintainable code and creating intuitive user experiences that make a real difference. Every project is an opportunity to push boundaries and learn something new.',

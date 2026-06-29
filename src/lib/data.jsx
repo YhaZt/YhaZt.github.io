@@ -3,7 +3,7 @@ import { supabase, isSupabaseConfigured } from './supabase';
 
 // ─── Fallback / Default Data ───────────────────────────────
 const defaultHero = {
-  name: 'YhaZt',
+  name: 'Carpel SD',
   title: 'Full Stack Developer',
   tagline: 'Crafting fast, accessible web apps from idea to production',
   resume_url: '',

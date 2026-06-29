@@ -6,7 +6,7 @@ export default function Footer() {
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
         <div>
           <p className="text-sm text-muted-foreground">
-            &copy; {new Date().getFullYear()} YhaZt
+            &copy; {new Date().getFullYear()} Carpel SD
           </p>
           <p className="text-xs text-muted-foreground/70 mt-1">
             Designed & built with React, Vite, and Tailwind CSS
