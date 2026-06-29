@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { MessageCircle, X, Send, User, Mail, Loader2 } from 'lucide-react';
 import { CONTACT_EMAIL } from '@/lib/config';
+import { submitContactForm } from '@/lib/submitContact';
 
 export default function FloatingChat({ isOpen, onOpen, onClose }) {
   const [form, setForm] = useState({ name: '', email: '', message: '' });
@@ -20,26 +21,7 @@ export default function FloatingChat({ isOpen, onOpen, onClose }) {
     setError(null);
 
     try {
-      const response = await fetch(`https://formsubmit.co/ajax/${CONTACT_EMAIL}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body: JSON.stringify({
-          name: form.name,
-          email: form.email,
-          message: form.message,
-          _subject: `Portfolio message from ${form.name}`,
-          _template: 'table',
-          _captcha: 'false',
-        }),
-      });
-
-      const data = await response.json();
-      if (!response.ok || data.success !== 'true') {
-        throw new Error(data.message || 'Failed to send message');
-      }
+      await submitContactForm(form);
 
       setSubmitted(true);
       setForm({ name: '', email: '', message: '' });
@@ -47,8 +29,15 @@ export default function FloatingChat({ isOpen, onOpen, onClose }) {
         setSubmitted(false);
         onClose();
       }, 2800);
-    } catch {
-      setError(`Could not send right now. Email me at ${CONTACT_EMAIL}`);
+    } catch (err) {
+      const detail = err?.message && err.message !== 'Failed to send message.'
+        ? err.message
+        : null;
+      setError(
+        detail
+          ? `${detail} You can also email me at ${CONTACT_EMAIL}`
+          : `Could not send right now. Email me at ${CONTACT_EMAIL}`
+      );
     } finally {
       setLoading(false);
     }

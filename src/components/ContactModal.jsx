@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { X, Mail, Send, User, MessageSquare, Loader2 } from 'lucide-react';
 import { CONTACT_EMAIL } from '@/lib/config';
+import { submitContactForm } from '@/lib/submitContact';
 
 export default function ContactModal({ isOpen, onClose }) {
   const [form, setForm] = useState({ name: '', email: '', message: '' });
@@ -20,27 +21,7 @@ export default function ContactModal({ isOpen, onClose }) {
     setError(null);
 
     try {
-      const response = await fetch(`https://formsubmit.co/ajax/${CONTACT_EMAIL}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Accept: 'application/json',
-        },
-        body: JSON.stringify({
-          name: form.name,
-          email: form.email,
-          message: form.message,
-          _subject: `Portfolio message from ${form.name}`,
-          _template: 'table',
-          _captcha: 'false',
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok || data.success !== 'true') {
-        throw new Error(data.message || 'Failed to send message');
-      }
+      await submitContactForm(form);
 
       setSubmitted(true);
       setForm({ name: '', email: '', message: '' });
@@ -48,8 +29,12 @@ export default function ContactModal({ isOpen, onClose }) {
         setSubmitted(false);
         onClose();
       }, 3000);
-    } catch {
-      setError(`Could not send right now. Email me directly at ${CONTACT_EMAIL}`);
+    } catch (err) {
+      setError(
+        err?.message
+          ? `${err.message} Email me directly at ${CONTACT_EMAIL}`
+          : `Could not send right now. Email me directly at ${CONTACT_EMAIL}`
+      );
     } finally {
       setLoading(false);
     }
