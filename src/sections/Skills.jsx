@@ -1,8 +1,37 @@
+import { motion } from 'motion/react';
 import AnimatedContent from '@/components/AnimatedContent';
 import ScrollFloat from '@/components/ScrollFloat';
 import SpotlightCard from '@/components/SpotlightCard';
 import LogoLoop from '@/components/LogoLoop';
 import { useSiteData } from '@/lib/data';
+
+function SkillChip({ skill, index }) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 12 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-40px' }}
+      transition={{ duration: 0.4, delay: index * 0.06 }}
+      whileHover={{ y: -3, scale: 1.03 }}
+      className="group relative flex items-center gap-3 px-4 py-3 rounded-xl bg-background/40 border border-white/8 hover:border-primary/35 transition-colors duration-300"
+    >
+      <span className="absolute inset-0 rounded-xl bg-primary/0 group-hover:bg-primary/5 transition-colors duration-300" />
+      <motion.span
+        className="relative flex items-center justify-center w-9 h-9 rounded-lg bg-primary/10 text-lg group-hover:bg-primary/20 transition-colors"
+        animate={{ y: [0, -4, 0] }}
+        transition={{
+          duration: 2.8,
+          repeat: Infinity,
+          ease: 'easeInOut',
+          delay: index * 0.12,
+        }}
+      >
+        {skill.icon}
+      </motion.span>
+      <span className="relative text-sm font-medium text-foreground">{skill.name}</span>
+    </motion.div>
+  );
+}
 
 export default function Skills() {
   const { skillCategories } = useSiteData();
@@ -47,23 +76,9 @@ export default function Skills() {
                 spotlightColor={category.color}
               >
                 <h3 className="text-lg font-semibold text-foreground mb-5">{category.title}</h3>
-                <div className="space-y-4">
-                  {category.skills.map((skill) => (
-                    <div key={skill.name}>
-                      <div className="flex items-center justify-between mb-2">
-                        <div className="flex items-center gap-2">
-                          <span className="text-base">{skill.icon}</span>
-                          <span className="text-sm font-medium text-foreground">{skill.name}</span>
-                        </div>
-                        <span className="text-xs text-muted-foreground">{skill.level}%</span>
-                      </div>
-                      <div className="h-1.5 bg-secondary/80 rounded-full overflow-hidden">
-                        <div
-                          className="h-full bg-gradient-to-r from-primary via-indigo-500 to-purple-500 rounded-full transition-all duration-1000 ease-out"
-                          style={{ width: `${skill.level}%` }}
-                        />
-                      </div>
-                    </div>
+                <div className="flex flex-wrap gap-3">
+                  {category.skills.map((skill, skillIndex) => (
+                    <SkillChip key={skill.name} skill={skill} index={skillIndex + catIndex} />
                   ))}
                 </div>
               </SpotlightCard>

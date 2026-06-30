@@ -62,6 +62,71 @@ Set the base path in two places:
 1. `.github/workflows/deploy.yml` — change `VITE_BASE_PATH: /` to `VITE_BASE_PATH: /me/`
 2. Local builds: `VITE_BASE_PATH=/me/ npm run build`
 
+## How to push changes
+
+This repo auto-builds on every push to `main`. GitHub Actions also commits built files (`index.html`, `assets/`), which can cause merge conflicts if you push without pulling first.
+
+### Standard workflow
+
+```bash
+cd me   # or your local clone of YhaZt.github.io
+
+# 1. Pull latest (rebase keeps history clean)
+git pull --rebase origin main
+
+# 2. Stage and commit your source changes
+git add .
+git commit -m "describe your change"
+
+# 3. Build production files for GitHub Pages
+npm run build
+# Copy build output to repo root (Windows PowerShell)
+Copy-Item dist\index.html index.html -Force
+Copy-Item dist\404.html 404.html -Force
+Remove-Item assets -Recurse -Force -ErrorAction SilentlyContinue
+Copy-Item dist\assets assets -Recurse -Force
+
+# 4. Commit built files (if changed)
+git add index.html 404.html assets
+git commit -m "chore: update built site"   # skip if nothing changed
+
+# 5. Pull again in case CI pushed while you were building
+git pull --rebase origin main
+
+# 6. Push
+git push origin main
+```
+
+### If you get merge conflicts
+
+Conflicts usually appear in `index.html`, `404.html`, or `assets/`. Fix them by rebuilding:
+
+```bash
+git pull --rebase origin main
+# resolve conflicts OR if stuck:
+npm run build
+Copy-Item dist\index.html index.html -Force
+Copy-Item dist\404.html 404.html -Force
+Remove-Item assets -Recurse -Force -ErrorAction SilentlyContinue
+Copy-Item dist\assets assets -Recurse -Force
+git add index.html 404.html assets
+git rebase --continue   # or: git commit (if merge, not rebase)
+git push origin main
+```
+
+### GitHub secrets (contact form on live site)
+
+Add in **Settings → Secrets and variables → Actions**:
+
+| Secret | Purpose |
+|--------|---------|
+| `VITE_WEB3FORMS_ACCESS_KEY` | Contact form (get free key at [web3forms.com](https://web3forms.com)) |
+| `VITE_CONTACT_EMAIL` | Optional — override recipient email |
+
+Local dev uses `.env` (never commit — it's in `.gitignore`).
+
+---
+
 ## Deploy to GitHub Pages (free)
 
 This repo includes a GitHub Actions workflow (`.github/workflows/deploy.yml`) that builds and deploys on every push to `main`.
