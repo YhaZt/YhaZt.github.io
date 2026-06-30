@@ -200,6 +200,76 @@ body {
     filter: drop-shadow(0 0 8px oklch(0.62 0.2 264 / 0.6));
   }
 
+  .mask-fade-x {
+    mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+  }
+
+  .electric-border {
+    --electric-color: #22d3ee;
+    position: relative;
+    padding: 2px;
+    border-radius: inherit;
+    isolation: isolate;
+  }
+
+  .electric-border-svg {
+    position: absolute;
+    width: 0;
+    height: 0;
+    overflow: hidden;
+  }
+
+  .electric-border-layers {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .electric-border-frame {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    border: 2px solid var(--electric-color);
+    background: transparent;
+  }
+
+  .electric-border-glow-1,
+  .electric-border-glow-2,
+  .electric-border-bg-glow {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+  }
+
+  .electric-border-glow-1 {
+    border: 2px solid color-mix(in srgb, var(--electric-color) 60%, transparent);
+    filter: blur(1px);
+  }
+
+  .electric-border-glow-2 {
+    border: 2px solid var(--electric-color);
+    filter: blur(4px);
+    opacity: 0.85;
+  }
+
+  .electric-border-bg-glow {
+    inset: -4px;
+    z-index: -1;
+    filter: blur(28px);
+    opacity: 0.35;
+    background: linear-gradient(135deg, var(--electric-color), transparent 55%, var(--electric-color));
+  }
+
+  .electric-border-content {
+    position: relative;
+    z-index: 1;
+    border-radius: inherit;
+    height: 100%;
+  }
+
   .mesh-bg {
     background:
       radial-gradient(ellipse 80% 60% at 20% 10%, oklch(0.45 0.15 264 / 0.35), transparent 55%),

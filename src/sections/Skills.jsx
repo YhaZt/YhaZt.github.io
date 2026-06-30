@@ -1,46 +1,101 @@
 import { motion } from 'motion/react';
 import AnimatedContent from '@/components/AnimatedContent';
 import ScrollFloat from '@/components/ScrollFloat';
-import SpotlightCard from '@/components/SpotlightCard';
+import EffectCard from '@/components/EffectCard';
 import LogoLoop from '@/components/LogoLoop';
 import { useSiteData } from '@/lib/data';
 
-function SkillChip({ skill, index }) {
+const RUMBLE_PATHS = [
+  { x: [0, 12, -8, 5, 0], y: [0, -14, 10, -6, 0], rotate: [-4, 6, -3, 4, 0] },
+  { x: [0, -14, 10, -6, 0], y: [0, 10, -12, 8, 0], rotate: [3, -5, 4, -2, 0] },
+  { x: [0, 8, -12, 14, 0], y: [0, 12, -8, 14, 0], rotate: [-2, 5, -6, 3, 0] },
+  { x: [0, -10, 16, -8, 0], y: [0, -8, 14, -10, 0], rotate: [5, -3, 6, -4, 0] },
+  { x: [0, 16, -6, 10, 0], y: [0, 6, -16, 4, 0], rotate: [-6, 2, -5, 5, 0] },
+  { x: [0, -8, 12, -14, 0], y: [0, 14, -6, 12, 0], rotate: [4, -6, 3, -5, 0] },
+];
+
+function FloatingSkill({ skill, index }) {
+  const path = RUMBLE_PATHS[index % RUMBLE_PATHS.length];
+  const duration = 3.2 + (index % 5) * 0.45;
+
   return (
     <motion.div
-      initial={{ opacity: 0, y: 12 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: '-40px' }}
-      transition={{ duration: 0.4, delay: index * 0.06 }}
-      whileHover={{ y: -3, scale: 1.03 }}
-      className="group relative flex items-center gap-3 px-4 py-3 rounded-xl bg-background/40 border border-white/8 hover:border-primary/35 transition-colors duration-300"
+      className="flex flex-col items-center justify-center gap-2 min-w-[88px]"
+      animate={path}
+      transition={{
+        duration,
+        repeat: Infinity,
+        ease: 'easeInOut',
+        delay: index * 0.18,
+      }}
+      whileHover={{ scale: 1.12, zIndex: 10 }}
     >
-      <span className="absolute inset-0 rounded-xl bg-primary/0 group-hover:bg-primary/5 transition-colors duration-300" />
-      <motion.span
-        className="relative flex items-center justify-center w-9 h-9 rounded-lg bg-primary/10 text-lg group-hover:bg-primary/20 transition-colors"
-        animate={{ y: [0, -4, 0] }}
-        transition={{
-          duration: 2.8,
-          repeat: Infinity,
-          ease: 'easeInOut',
-          delay: index * 0.12,
+      <motion.div
+        className="flex items-center justify-center w-14 h-14 rounded-2xl bg-background/60 border border-white/10 shadow-lg backdrop-blur-sm"
+        animate={{
+          boxShadow: [
+            '0 0 0 rgba(99,102,241,0)',
+            '0 0 24px rgba(99,102,241,0.35)',
+            '0 0 0 rgba(99,102,241,0)',
+          ],
         }}
+        transition={{ duration: 2.4 + index * 0.2, repeat: Infinity }}
       >
-        {skill.icon}
-      </motion.span>
-      <span className="relative text-sm font-medium text-foreground">{skill.name}</span>
+        <span className="text-2xl select-none">{skill.icon}</span>
+      </motion.div>
+      <span className="text-xs font-medium text-foreground/90 text-center leading-tight">{skill.name}</span>
     </motion.div>
+  );
+}
+
+function DriftMarquee({ skills }) {
+  const items = [...skills, ...skills];
+
+  return (
+    <div className="relative overflow-hidden py-4 mask-fade-x">
+      <motion.div
+        className="flex gap-10 w-max"
+        animate={{ x: ['0%', '-50%'] }}
+        transition={{ duration: 28, repeat: Infinity, ease: 'linear' }}
+      >
+        {items.map((skill, i) => (
+          <motion.div
+            key={`${skill.name}-${i}`}
+            className="flex items-center gap-3 px-5 py-3 rounded-full bg-card/40 border border-white/10 backdrop-blur-md shrink-0"
+            animate={{ y: [0, -6, 4, 0] }}
+            transition={{
+              duration: 2.5 + (i % 4) * 0.4,
+              repeat: Infinity,
+              ease: 'easeInOut',
+              delay: i * 0.15,
+            }}
+          >
+            <span className="text-xl">{skill.icon}</span>
+            <span className="text-sm font-medium text-foreground whitespace-nowrap">{skill.name}</span>
+          </motion.div>
+        ))}
+      </motion.div>
+    </div>
   );
 }
 
 export default function Skills() {
   const { skillCategories } = useSiteData();
 
-  const techLogos = skillCategories.flatMap(cat =>
-    cat.skills.map(s => ({
-      node: <span className="text-2xl font-bold text-foreground/70">{s.name}</span>,
-    }))
-  );
+  const allSkills = skillCategories.flatMap((cat) => cat.skills);
+
+  const techLogos = allSkills.map((s) => ({
+    node: (
+      <motion.span
+        className="text-2xl font-bold text-foreground/70 inline-flex items-center gap-2"
+        animate={{ y: [0, -4, 0] }}
+        transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+      >
+        <span>{s.icon}</span>
+        {s.name}
+      </motion.span>
+    ),
+  }));
 
   return (
     <section id="skills" className="py-32 px-6">
@@ -57,31 +112,34 @@ export default function Skills() {
         </div>
 
         <AnimatedContent distance={40} delay={0.1}>
-          <div className="mb-20">
-            <LogoLoop
-              logos={techLogos}
-              speed={80}
-              logoHeight={32}
-              gap={48}
-              pauseOnHover
-            />
+          <div className="mb-10">
+            <LogoLoop logos={techLogos} speed={70} logoHeight={36} gap={56} pauseOnHover />
           </div>
         </AnimatedContent>
 
-        <div className="grid md:grid-cols-2 gap-6">
+        <AnimatedContent distance={30} delay={0.15}>
+          <DriftMarquee skills={allSkills} />
+        </AnimatedContent>
+
+        <div className="grid md:grid-cols-2 gap-6 mt-14">
           {skillCategories.map((category, catIndex) => (
             <AnimatedContent key={category.id || category.title} distance={50} delay={catIndex * 0.15}>
-              <SpotlightCard
-                className="glass-panel p-6 rounded-2xl h-full"
+              <EffectCard
+                effectIndex={catIndex}
+                className="glass-panel p-6 h-full min-h-[220px]"
                 spotlightColor={category.color}
               >
-                <h3 className="text-lg font-semibold text-foreground mb-5">{category.title}</h3>
-                <div className="flex flex-wrap gap-3">
+                <h3 className="text-lg font-semibold text-foreground mb-6">{category.title}</h3>
+                <div className="flex flex-wrap justify-center items-center gap-x-6 gap-y-8 min-h-[140px]">
                   {category.skills.map((skill, skillIndex) => (
-                    <SkillChip key={skill.name} skill={skill} index={skillIndex + catIndex} />
+                    <FloatingSkill
+                      key={skill.name}
+                      skill={skill}
+                      index={skillIndex + catIndex * 3}
+                    />
                   ))}
                 </div>
-              </SpotlightCard>
+              </EffectCard>
             </AnimatedContent>
           ))}
         </div>

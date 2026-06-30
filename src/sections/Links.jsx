@@ -1,6 +1,6 @@
 import AnimatedContent from '@/components/AnimatedContent';
 import ScrollFloat from '@/components/ScrollFloat';
-import SpotlightCard from '@/components/SpotlightCard';
+import EffectCard from '@/components/EffectCard';
 import { ExternalLink } from 'lucide-react';
 import { useSiteData } from '@/lib/data';
 import { getIcon } from '@/lib/icons';
@@ -30,9 +30,10 @@ export default function Links() {
         <div className="grid sm:grid-cols-2 gap-4">
           {socialLinks.map((link, index) => {
             const card = (
-              <SpotlightCard
-                className="glass-panel p-5 rounded-2xl hover:border-primary/30 transition-all duration-300 h-full min-h-[148px] flex"
+              <EffectCard
+                className="glass-panel p-5 hover:border-primary/30 transition-all duration-300 h-full min-h-[148px] flex"
                 spotlightColor={link.color}
+                effectIndex={index}
               >
                 <div className="flex items-start gap-4 w-full">
                   <div className="text-muted-foreground group-hover:text-primary transition-colors shrink-0 mt-0.5">
@@ -50,7 +51,7 @@ export default function Links() {
                     </p>
                   </div>
                 </div>
-              </SpotlightCard>
+              </EffectCard>
             );
 
             return (

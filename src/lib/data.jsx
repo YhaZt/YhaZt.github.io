@@ -55,6 +55,7 @@ const defaultSkillCategories = [
     skills: [
       { name: 'PostgreSQL', icon: '🐘', level: 85 },
       { name: 'MongoDB', icon: '🍃', level: 82 },
+      { name: 'MySQL', icon: '🐬', level: 84 },
     ],
   },
 ];

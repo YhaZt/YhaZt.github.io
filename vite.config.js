@@ -23,6 +23,12 @@ export default defineConfig({
   // Use '/' for username.github.io — use '/me/' if keeping the project repo name
   base: process.env.VITE_BASE_PATH || '/',
   plugins: [react(), tailwindcss(), devSourceHtml()],
+  server: {
+    // Production build output at repo root — ignore to avoid Windows EBUSY crashes during `npm run build`
+    watch: {
+      ignored: [path.resolve(__dirname, 'assets'), path.resolve(__dirname, 'index.html'), path.resolve(__dirname, '404.html')],
+    },
+  },
   resolve: {
     alias: {
       '@': path.resolve(__dirname, './src'),

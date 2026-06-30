@@ -1,7 +1,7 @@
 import AnimatedContent from '@/components/AnimatedContent';
 import CountUp from '@/components/CountUp';
 import ScrollFloat from '@/components/ScrollFloat';
-import SpotlightCard from '@/components/SpotlightCard';
+import EffectCard from '@/components/EffectCard';
 import { useSiteData } from '@/lib/data';
 import { getIcon } from '@/lib/icons';
 
@@ -24,16 +24,16 @@ export default function About() {
 
         <div className="grid md:grid-cols-2 gap-12 mb-20">
           <AnimatedContent distance={60} direction="horizontal" reverse>
-            <SpotlightCard className="glass-panel h-full p-8 rounded-2xl" spotlightColor="rgba(59, 130, 246, 0.15)">
+            <EffectCard className="glass-panel h-full p-8 rounded-2xl" spotlightColor="rgba(59, 130, 246, 0.15)">
               <h3 className="text-xl font-semibold mb-4 text-foreground">Who I Am</h3>
               {about.who_i_am.split('\n\n').map((p, i) => (
                 <p key={i} className="text-muted-foreground leading-relaxed mb-4">{p}</p>
               ))}
-            </SpotlightCard>
+            </EffectCard>
           </AnimatedContent>
 
           <AnimatedContent distance={60} direction="horizontal">
-            <SpotlightCard className="glass-panel h-full p-8 rounded-2xl" spotlightColor="rgba(139, 92, 246, 0.15)">
+            <EffectCard className="glass-panel h-full p-8 rounded-2xl" spotlightColor="rgba(139, 92, 246, 0.15)">
               <h3 className="text-xl font-semibold mb-4 text-foreground">What I Do</h3>
               <p className="text-muted-foreground leading-relaxed mb-4">{about.what_i_do}</p>
               <div className="flex flex-wrap gap-2 mt-4">
@@ -46,14 +46,14 @@ export default function About() {
                   </span>
                 ))}
               </div>
-            </SpotlightCard>
+            </EffectCard>
           </AnimatedContent>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {stats.map((stat, index) => (
             <AnimatedContent key={stat.id || stat.label} distance={40} delay={index * 0.1}>
-              <SpotlightCard className="glass-panel p-6 rounded-2xl text-center" spotlightColor="rgba(99, 102, 241, 0.1)">
+              <EffectCard className="glass-panel p-6 rounded-2xl text-center" spotlightColor="rgba(99, 102, 241, 0.1)">
                 <div className="text-primary mb-3 flex justify-center">
                   {getIcon(stat.icon, { size: 24 })}
                 </div>
@@ -62,7 +62,7 @@ export default function About() {
                   <span>{stat.suffix}</span>
                 </div>
                 <p className="text-sm text-muted-foreground">{stat.label}</p>
-              </SpotlightCard>
+              </EffectCard>
             </AnimatedContent>
           ))}
         </div>

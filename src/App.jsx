@@ -1,6 +1,7 @@
 import { useState, useCallback } from 'react';
 import { AnimatePresence } from 'motion/react';
 import { Code2, Globe, ExternalLink, Calendar, Mail } from 'lucide-react';
+import CursorSplash from '@/components/CursorSplash';
 import AppBackground from '@/components/AppBackground';
 import PageLoader from '@/components/PageLoader';
 import FloatingChat from '@/components/FloatingChat';
@@ -31,6 +32,7 @@ export default function App() {
       </AnimatePresence>
 
       <div className="relative min-h-screen overflow-x-hidden">
+        <CursorSplash />
         <AppBackground />
         <ScrollProgress />
 

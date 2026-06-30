@@ -1,6 +1,6 @@
 import AnimatedContent from '@/components/AnimatedContent';
 import ScrollFloat from '@/components/ScrollFloat';
-import SpotlightCard from '@/components/SpotlightCard';
+import EffectCard from '@/components/EffectCard';
 import GlowingButton from '@/components/GlowingButton';
 import { BarChart3, ExternalLink } from 'lucide-react';
 import { useChat } from '@/context/ChatContext';
@@ -22,7 +22,7 @@ export default function WakaTime() {
         </div>
 
         <AnimatedContent distance={40}>
-          <SpotlightCard className="glass-panel p-10 rounded-2xl text-center max-w-2xl mx-auto" spotlightColor="rgba(59, 130, 246, 0.12)">
+          <EffectCard className="glass-panel p-10 text-center max-w-2xl mx-auto" spotlightColor="rgba(59, 130, 246, 0.12)">
             <BarChart3 size={48} className="text-primary/50 mx-auto mb-5" strokeWidth={1.5} />
             <h3 className="text-xl font-semibold text-foreground mb-2">Live WakaTime Dashboard</h3>
             <p className="text-muted-foreground mb-8 leading-relaxed">
@@ -37,7 +37,7 @@ export default function WakaTime() {
                 Message me
               </GlowingButton>
             </div>
-          </SpotlightCard>
+          </EffectCard>
         </AnimatedContent>
       </div>
     </section>
