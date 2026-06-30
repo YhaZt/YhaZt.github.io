@@ -3,13 +3,12 @@ import AnimatedContent from '@/components/AnimatedContent';
 import ScrollFloat from '@/components/ScrollFloat';
 import SpotlightCard from '@/components/SpotlightCard';
 import ShinyText from '@/components/ShinyText';
-import { ExternalLink, Github, ChevronRight, Lock } from 'lucide-react';
+import { ExternalLink, Github, Lock } from 'lucide-react';
 import { useSiteData } from '@/lib/data';
 
 export default function Projects() {
   const { projects } = useSiteData();
   const [activeFilter, setActiveFilter] = useState('All');
-  const [showAll, setShowAll] = useState(true);
 
   const filters = useMemo(() => {
     const tagSet = new Set();
@@ -17,11 +16,9 @@ export default function Projects() {
     return ['All', ...Array.from(tagSet)];
   }, [projects]);
 
-  const filteredProjects = activeFilter === 'All'
+  const displayedProjects = activeFilter === 'All'
     ? projects
     : projects.filter((p) => (p.tags || []).includes(activeFilter));
-
-  const displayedProjects = showAll ? filteredProjects : filteredProjects.slice(0, 3);
 
   return (
     <section id="projects" className="py-32 px-6">
@@ -42,7 +39,7 @@ export default function Projects() {
             {filters.map((filter) => (
               <button
                 key={filter}
-                onClick={() => { setActiveFilter(filter); setShowAll(false); }}
+                onClick={() => setActiveFilter(filter)}
                 className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
                   activeFilter === filter
                     ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/25'
@@ -55,7 +52,7 @@ export default function Projects() {
           </div>
         </AnimatedContent>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
           {displayedProjects.map((project, index) => {
             const hasLiveUrl = project.live_url && project.live_url !== '#';
 
@@ -133,20 +130,6 @@ export default function Projects() {
             );
           })}
         </div>
-
-        {filteredProjects.length > 3 && !showAll && (
-          <AnimatedContent distance={20} delay={0.3}>
-            <div className="text-center mt-10">
-              <button
-                onClick={() => setShowAll(true)}
-                className="inline-flex items-center gap-2 px-6 py-3 rounded-full glass-panel text-muted-foreground hover:text-foreground hover:border-primary/50 transition-all"
-              >
-                View All Projects
-                <ChevronRight size={16} />
-              </button>
-            </div>
-          </AnimatedContent>
-        )}
       </div>
     </section>
   );

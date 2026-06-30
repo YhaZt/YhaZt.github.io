@@ -4,6 +4,18 @@ function isFormSubmitSuccess(value) {
   return value === true || value === 'true';
 }
 
+export function isActivationError(message = '') {
+  return /activation|activate form/i.test(message);
+}
+
+export function buildContactMailto({ name, email, message }) {
+  const subject = encodeURIComponent(`Portfolio message from ${name || 'Visitor'}`);
+  const body = encodeURIComponent(
+    `Name: ${name}\nEmail: ${email}\n\n${message}`
+  );
+  return `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
+}
+
 export async function submitContactForm({ name, email, message }) {
   const response = await fetch(`https://formsubmit.co/ajax/${CONTACT_EMAIL}`, {
     method: 'POST',
@@ -29,7 +41,9 @@ export async function submitContactForm({ name, email, message }) {
   }
 
   if (!response.ok || !isFormSubmitSuccess(data?.success)) {
-    throw new Error(data?.message || 'Failed to send message.');
+    const err = new Error(data?.message || 'Failed to send message.');
+    err.needsActivation = isActivationError(data?.message);
+    throw err;
   }
 
   return data;
