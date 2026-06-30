@@ -38,6 +38,8 @@ jobs:
         run: npm run build
         env:
           VITE_BASE_PATH: /
+          VITE_CONTACT_EMAIL: ${{ secrets.VITE_CONTACT_EMAIL }}
+          VITE_WEB3FORMS_ACCESS_KEY: ${{ secrets.VITE_WEB3FORMS_ACCESS_KEY }}
 
       - name: Copy built site to repo root for GitHub Pages
         run: |

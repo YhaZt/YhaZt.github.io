@@ -1,50 +1,44 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { MessageCircle, X, Send, User, Mail, Loader2 } from 'lucide-react';
-import { CONTACT_EMAIL } from '@/lib/config';
-import { submitContactForm, buildContactMailto, isActivationError } from '@/lib/submitContact';
+import { submitContactForm } from '@/lib/submitContact';
 
 export default function FloatingChat({ isOpen, onOpen, onClose }) {
   const [form, setForm] = useState({ name: '', email: '', message: '' });
   const [submitted, setSubmitted] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [needsActivation, setNeedsActivation] = useState(false);
 
   const handleChange = (e) => {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     if (error) setError(null);
-    if (needsActivation) setNeedsActivation(false);
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     setError(null);
-    setNeedsActivation(false);
 
     try {
-      await submitContactForm(form);
+      const result = await submitContactForm(form);
 
+      setSuccessMessage(
+        result.method === 'mailto'
+          ? 'Your email app should open — tap Send there to deliver your message.'
+          : 'Thanks for reaching out — I\'ll get back to you soon.'
+      );
       setSubmitted(true);
       setForm({ name: '', email: '', message: '' });
       setTimeout(() => {
         setSubmitted(false);
+        setSuccessMessage('');
         onClose();
-      }, 2800);
+      }, result.method === 'mailto' ? 4500 : 2800);
     } catch (err) {
-      if (err?.needsActivation || isActivationError(err?.message)) {
-        setNeedsActivation(true);
-        setError(
-          `FormSubmit needs a one-time activation. Check ${CONTACT_EMAIL} (and spam) for the "Activate Form" link, then try again.`
-        );
-      } else {
-        setError(
-          err?.message
-            ? `${err.message} You can also email me at ${CONTACT_EMAIL}`
-            : `Could not send right now. Email me at ${CONTACT_EMAIL}`
-        );
-      }
+      setError(
+        err?.message || 'Could not send right now. Please try again.'
+      );
     } finally {
       setLoading(false);
     }
@@ -53,7 +47,6 @@ export default function FloatingChat({ isOpen, onOpen, onClose }) {
   const handleClose = () => {
     if (loading) return;
     setError(null);
-    setNeedsActivation(false);
     onClose();
   };
 
@@ -114,8 +107,8 @@ export default function FloatingChat({ isOpen, onOpen, onClose }) {
                   animate={{ opacity: 1, y: 0 }}
                   className="text-center py-6"
                 >
-                  <p className="text-sm font-medium text-foreground mb-1">Message sent!</p>
-                  <p className="text-xs text-muted-foreground">Thanks for reaching out.</p>
+                  <p className="text-sm font-medium text-foreground mb-1">Ready to send!</p>
+                  <p className="text-xs text-muted-foreground">{successMessage}</p>
                 </motion.div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-3">
@@ -156,22 +149,9 @@ export default function FloatingChat({ isOpen, onOpen, onClose }) {
                     className="w-full px-3 py-2.5 rounded-xl bg-background/60 border border-white/10 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/40 resize-none"
                   />
                   {error && (
-                    <div className={`text-xs rounded-lg px-3 py-2 border ${
-                      needsActivation
-                        ? 'text-amber-300 bg-amber-500/10 border-amber-500/25'
-                        : 'text-red-400 bg-red-500/10 border-red-500/20'
-                    }`}>
+                    <p className="text-xs text-red-400 bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2">
                       {error}
-                    </div>
-                  )}
-                  {(needsActivation || error) && (
-                    <a
-                      href={buildContactMailto(form)}
-                      className="w-full glow-btn-outline text-sm py-2.5 text-center"
-                    >
-                      <Mail size={15} />
-                      Send via email app instead
-                    </a>
+                    </p>
                   )}
                   <button
                     type="submit"
