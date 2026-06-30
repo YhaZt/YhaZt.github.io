@@ -22,20 +22,16 @@ export default function ContactModal({ isOpen, onClose }) {
     setError(null);
 
     try {
-      const result = await submitContactForm(form);
+      await submitContactForm(form);
 
-      setSuccessMessage(
-        result.method === 'mailto'
-          ? 'Your email app should open — tap Send there to deliver your message.'
-          : 'Thanks for reaching out — I\'ll get back to you soon.'
-      );
+      setSuccessMessage('Thanks for reaching out — I\'ll get back to you soon.');
       setSubmitted(true);
       setForm({ name: '', email: '', message: '' });
       setTimeout(() => {
         setSubmitted(false);
         setSuccessMessage('');
         onClose();
-      }, result.method === 'mailto' ? 4500 : 3000);
+      }, 3000);
     } catch (err) {
       setError(
         err?.message
@@ -106,7 +102,7 @@ export default function ContactModal({ isOpen, onClose }) {
                   className="text-center py-8"
                 >
                   <div className="text-4xl mb-3">✉️</div>
-                  <h3 className="text-lg font-semibold text-foreground mb-1">Ready to send!</h3>
+                  <h3 className="text-lg font-semibold text-foreground mb-1">Message Sent!</h3>
                   <p className="text-sm text-muted-foreground">
                     {successMessage}
                   </p>

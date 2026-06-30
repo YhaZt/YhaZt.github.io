@@ -109,7 +109,7 @@ const defaultProjects = [
 const defaultSocialLinks = [
   { id: '1', name: 'GitHub', url: 'https://github.com/YhaZt', icon_name: 'Github', color: 'rgba(255, 255, 255, 0.1)', description: 'Open-source projects and contributions', sort_order: 0 },
   { id: '2', name: 'LinkedIn', url: 'https://www.linkedin.com/in/carpel-sweet-dreams-lanto-8515a2258/', icon_name: 'Linkedin', color: 'rgba(10, 102, 194, 0.2)', description: 'Professional background and experience', sort_order: 1 },
-  { id: '3', name: 'Email', url: 'mailto:carpelbalmes@gmail.com', icon_name: 'Mail', color: 'rgba(234, 67, 53, 0.2)', description: 'Reach out for collaborations or opportunities', sort_order: 2 },
+  { id: '3', name: 'Email', url: '#chat', icon_name: 'Mail', color: 'rgba(234, 67, 53, 0.2)', description: 'Reach out for collaborations or opportunities', sort_order: 2 },
   { id: '4', name: 'Portfolio', url: 'https://yhazt.github.io', icon_name: 'Globe', color: 'rgba(59, 130, 246, 0.2)', description: 'Live portfolio site on GitHub Pages', sort_order: 3 },
 ];
 

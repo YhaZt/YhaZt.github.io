@@ -21,20 +21,16 @@ export default function FloatingChat({ isOpen, onOpen, onClose }) {
     setError(null);
 
     try {
-      const result = await submitContactForm(form);
+      await submitContactForm(form);
 
-      setSuccessMessage(
-        result.method === 'mailto'
-          ? 'Your email app should open — tap Send there to deliver your message.'
-          : 'Thanks for reaching out — I\'ll get back to you soon.'
-      );
+      setSuccessMessage('Thanks for reaching out — I\'ll get back to you soon.');
       setSubmitted(true);
       setForm({ name: '', email: '', message: '' });
       setTimeout(() => {
         setSubmitted(false);
         setSuccessMessage('');
         onClose();
-      }, result.method === 'mailto' ? 4500 : 2800);
+      }, 2800);
     } catch (err) {
       setError(
         err?.message || 'Could not send right now. Please try again.'
@@ -107,7 +103,7 @@ export default function FloatingChat({ isOpen, onOpen, onClose }) {
                   animate={{ opacity: 1, y: 0 }}
                   className="text-center py-6"
                 >
-                  <p className="text-sm font-medium text-foreground mb-1">Ready to send!</p>
+                  <p className="text-sm font-medium text-foreground mb-1">Message sent!</p>
                   <p className="text-xs text-muted-foreground">{successMessage}</p>
                 </motion.div>
               ) : (
