@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import AnimatedContent from '@/components/AnimatedContent';
 import ScrollFloat from '@/components/ScrollFloat';
-import EffectCard from '@/components/EffectCard';
+import SpotlightCard from '@/components/SpotlightCard';
 import ShinyText from '@/components/ShinyText';
 import { ExternalLink, Github, Lock } from 'lucide-react';
 import { useSiteData } from '@/lib/data';
@@ -58,8 +58,8 @@ export default function Projects() {
 
             return (
             <AnimatedContent key={project.id || project.title} distance={50} delay={index * 0.1}>
-              <EffectCard
-                className="group glass-panel p-0 overflow-hidden h-full flex flex-col"
+              <SpotlightCard
+                className="group glass-panel p-0 rounded-2xl overflow-hidden h-full flex flex-col"
                 spotlightColor="rgba(59, 130, 246, 0.1)"
               >
                 <div className="h-48 bg-gradient-to-br from-primary/20 via-purple-500/10 to-transparent flex items-center justify-center border-b border-white/5 overflow-hidden">
@@ -125,7 +125,7 @@ export default function Projects() {
                     </a>
                   </div>
                 </div>
-              </EffectCard>
+              </SpotlightCard>
             </AnimatedContent>
             );
           })}

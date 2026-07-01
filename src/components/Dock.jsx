@@ -2,6 +2,7 @@
 
 import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from 'motion/react';
 import { Children, cloneElement, useEffect, useMemo, useRef, useState } from 'react';
+import ElectricBorder from '@/components/ElectricBorder';
 
 function DockItem({ children, className = '', onClick, mouseX, spring, distance, magnification, baseItemSize }) {
   const ref = useRef(null);
@@ -100,34 +101,40 @@ export default function Dock({
     <motion.div
       style={{ height, scrollbarWidth: 'none' }}
       className="mx-2 flex max-w-full items-center">
-      <motion.div
-        onMouseMove={({ pageX }) => {
-          isHovered.set(1);
-          mouseX.set(pageX);
-        }}
-        onMouseLeave={() => {
-          isHovered.set(0);
-          mouseX.set(Infinity);
-        }}
-        className={`${className} absolute bottom-2 left-1/2 transform -translate-x-1/2 flex items-end w-fit gap-4 rounded-2xl border-white/10 border pb-2 px-4 bg-card/60 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.35)]`}
-        style={{ height: panelHeight }}
-        role="toolbar"
-        aria-label="Application dock">
-        {items.map((item, index) => (
-          <DockItem
-            key={index}
-            onClick={item.onClick}
-            className={item.className}
-            mouseX={mouseX}
-            spring={spring}
-            distance={distance}
-            magnification={magnification}
-            baseItemSize={baseItemSize}>
-            <DockIcon>{item.icon}</DockIcon>
-            <DockLabel>{item.label}</DockLabel>
-          </DockItem>
-        ))}
-      </motion.div>
+      <ElectricBorder
+        className="absolute bottom-2 left-1/2 -translate-x-1/2 rounded-2xl"
+        color="#22d3ee"
+        duration={4.5}
+        seed={2}>
+        <motion.div
+          onMouseMove={({ pageX }) => {
+            isHovered.set(1);
+            mouseX.set(pageX);
+          }}
+          onMouseLeave={() => {
+            isHovered.set(0);
+            mouseX.set(Infinity);
+          }}
+          className={`${className} flex items-end w-fit gap-4 rounded-2xl border-white/10 border pb-2 px-4 bg-card/60 backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.35)]`}
+          style={{ height: panelHeight }}
+          role="toolbar"
+          aria-label="Application dock">
+          {items.map((item, index) => (
+            <DockItem
+              key={index}
+              onClick={item.onClick}
+              className={item.className}
+              mouseX={mouseX}
+              spring={spring}
+              distance={distance}
+              magnification={magnification}
+              baseItemSize={baseItemSize}>
+              <DockIcon>{item.icon}</DockIcon>
+              <DockLabel>{item.label}</DockLabel>
+            </DockItem>
+          ))}
+        </motion.div>
+      </ElectricBorder>
     </motion.div>
   );
 }
